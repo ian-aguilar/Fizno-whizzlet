@@ -1,0 +1,293 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+
+/* Additional styles */
+@import "additional-styles/utility-patterns.css";
+@import "additional-styles/flatpickr.css";
+@import "tailwindcss/utilities";
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+select {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+.select__control {
+  border: 1px solid rgb(226 232 240) !important;
+}
+label {
+  font-weight: bold;
+}
+.multi_select_div input {
+  padding: 0;
+  opacity: 0;
+  display: none;
+}
+.categories_dropdown .multi_select_div input {
+  display: block;
+}
+.multi_select_div input:focus {
+  padding: 0;
+  border: none;
+  box-shadow: none;
+}
+.multi_select_div .icon_cancel.icon_down_dir {
+  display: none;
+}
+.multi_select_div .multiSelectContainer {
+  border: none;
+}
+.multi_select_div .searchWrapper,
+.quill,
+.ql-toolbar {
+  min-height: 35px;
+  border: 1px solid rgb(226 232 240 / var(--tw-border-opacity)) !important;
+}
+.ql-container.ql-snow {
+  border-color: rgb(226 232 240 / var(--tw-border-opacity)) !important;
+}
+.multi_select_div .highlightOption {
+  background-color: #306cb5;
+}
+.multi_select_div .chip {
+  background-color: #306cb5;
+  color: #fff;
+  font-size: 10px;
+  margin-bottom: 0;
+}
+.multi_select_div .multiSelectContainer li:hover {
+  background-color: #306cb5;
+}
+.banner_ebay_import button svg {
+  display: none;
+}
+.banner_ebay_import {
+  color: red;
+}
+input:focus {
+  /* border: none; */
+  --tw-ring-offset-width: 0 !important;
+}
+input:focus-visible {
+  outline: none;
+}
+input[type="checkbox"] {
+  accent-color: #306cb5;
+}
+.react-datepicker__input-container input {
+  border: 1px solid rgb(226 232 240 / var(--tw-border-opacity)) !important;
+  height: 35px;
+  width: 100%;
+}
+.react-datepicker-wrapper {
+  display: block !important;
+}
+
+.send_message_upload .main_upload_section {
+  display: flex;
+}
+.small_upload_div .h-40.w-40 {
+  width: 5rem;
+  height: 5rem;
+}
+.small_upload_div p {
+  display: none;
+}
+.small_upload_div img {
+  width: 4.5rem !important;
+  height: 4.5rem !important;
+  border-radius: 5px;
+}
+.small_upload_div .showing_preview {
+  align-items: start;
+}
+.small_upload_div input {
+  width: 5rem;
+  height: 5rem;
+}
+.small_upload_div .h-24.w-24 {
+  width: 4rem;
+  height: 4rem;
+}
+.small_upload_div .main_upload_section {
+  display: flex;
+}
+
+.banner_image_section .bordered_div {
+  width: 100%;
+  height: 200px;
+}
+.banner_image_section .bordered_div input {
+  height: 200px;
+}
+.banner_image_section .bordered_div .preview_img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.profile_upload_div .bordered_div {
+  width: 150px;
+  height: 150px;
+  border-radius: 100% !important;
+}
+.profile_upload_div .bordered_div p {
+  display: none;
+}
+.profile_upload_div .bordered_div .default_img,
+.profile_upload_div .bordered_div .preview_img {
+  width: 150px;
+  height: 150px;
+  border-radius: 100% !important;
+}
+.profile_upload_div .bordered_div .camera_btn {
+  left: 40%;
+  top: 40%;
+}
+.profile_upload_div .bordered_div .action_btn_main {
+  left: 35%;
+  top: 40%;
+}
+.membership_table tr td {
+  padding: 7px 5px;
+  border: 1px solid #000;
+  font-size: 14px;
+  text-align: center;
+}
+.membership_table tr td:nth-child(1) {
+  border-top-left-radius: 10px;
+  text-align: left;
+}
+.membership_table {
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.daterangepicker.show-calendar .applyBtn {
+  background-color: #306cb5;
+  color: #fff;
+}
+.dark .select__control {
+  background-color: #121212;
+  border: 1px solid rgb(51 65 85) !important;
+}
+.dark .multi_select_div .searchWrapper,
+.dark .quill,
+.dark .ql-toolbar,
+.dark .ql-container.ql-snow {
+  border: 1px solid rgb(51 65 85) !important;
+}
+.dark .ql-editor.ql-blank {
+  background-color: rgb(18, 18, 18);
+}
+.dark .select__single-value {
+  color: #72808e;
+}
+.dark textarea {
+  background-color: rgb(18, 18, 18);
+  border: 1px solid rgb(51 65 85) !important;
+}
+.dark .multiselect-container.multiSelectContainer {
+  background-color: rgb(18, 18, 18);
+  border: 1px solid rgb(51 65 85) !important;
+}
+.dark input,
+.dark select {
+  background-color: rgb(18, 18, 18);
+  border: 1px solid rgb(51 65 85) !important;
+}
+.product_page_description .ql-container.ql-snow {
+  min-height: 322px;
+}
+.wallet_card_design {
+  background-image: url("../../public/images/bg-fizno.png");
+  min-height: 202px;
+
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.tab_button_shipping {
+  width: 200px;
+}
+.tab_button_shipping::before {
+  position: absolute;
+  content: "";
+  border-bottom: 5px solid #306cb5;
+  width: 166px;
+  top: 20%;
+  left: 59%;
+}
+.tab_button_shipping:last-child::before {
+  content: none;
+}
+.coutryCode_select .select__indicator {
+  padding: 0;
+}
+.wallet_text_content {
+  background-color: #306cb58a;
+  min-height: 202px;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.get_paid_card {
+  background-image: url("../../public/images/mainpages/getPaidBg.png");
+  background-size: 100% 100%;
+}
+.get-paid-now-modal.absolute.top-0.right-0 {
+  top: 20px;
+}
+.earning_detail_page .get_paid_button {
+  display: none;
+}
+.earning_detail_page .get_paid_card {
+  padding: 40px 30px;
+}
+.input-camera_small svg {
+  width: 43px;
+  height: 31px;
+}
+/* fix for broken images */
+img {
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
+}
+
+img::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
+  overflow: hidden;
+  background-image: url(../../assets/images/product_dummy.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #fff;
+}
+

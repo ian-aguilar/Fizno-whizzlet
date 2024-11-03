@@ -1,0 +1,31 @@
+{
+  "name": "@fizno/base",
+  "version": "1.0.0",
+  "description": "Monorepo Root",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "yarn workspaces foreach --exclude @passes/ui-internal -pvi run dev"
+  },
+  "resolutions": {
+    "@types/react": "18.0.20"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@fizno/base": "file:",
+    "@mui/material": "^5.16.6",
+    "@types/js-cookie": "^3.0.6",
+    "formik": "^2.4.6",
+    "js-cookie": "^3.0.5",
+    "use-debounce": "^10.0.1",
+    "yup": "^1.4.0"
+  },
+  "packageManager": "yarn@4.5.1"
+}

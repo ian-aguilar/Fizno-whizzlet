@@ -1,0 +1,13 @@
+{
+  "name": "@fizno/shared-constants",
+  "version": "1.0.0",
+  "description": "Shared constants for the monorepo",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@fizno/shared-constants": "file:",
+    "typescript": "^5.3.2"
+  }
+}

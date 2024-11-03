@@ -1,0 +1,54 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\harsh\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js
+
+PATH: 
+  C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\Git\cmd;C:\ProgramData\ComposerSetup\bin;C:\wamp64\bin\php\php7.4.26;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\MongoDB\Server\7.0\bin;C:\Program Files\Java\jdk-17\;C:\Program Files\dotnet\;C:\Program Files\PuTTY\;C:\Program Files\MongoDB\Tools\100\bin;C:\Program Files\nodejs\;C:\Ruby33-x64\bin;C:\Users\harsh\AppData\Local\Android\Sdk\platform-tools;C:\Users\harsh\AppData\Local\Android\Sdk\tools;C:\Users\harsh\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\harsh\AppData\Local\Programs\Python\Python311\;C:\Users\harsh\AppData\Local\Microsoft\WindowsApps;C:\Users\harsh\AppData\Local\Programs\Microsoft VS Code\bin;C:\xampp\php;C:\xampp\htdocs\composer;C:\Users\harsh\AppData\Roaming\Composer\vendor\bin;C:\Program Files (x86)\MongoDB Atlas CLI\;C:\Users\harsh\.dotnet\tools;C:\Program Files\mongosh\;C:\Program Files\MongoDB\Tools\100\bin;C:\Users\harsh\AppData\Roaming\npm
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  19.9.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EPERM: operation not permitted, unlink 'F:\Fizno\node_modules\@next\swc-win32-x64-msvc\next-swc.win32-x64-msvc.node'
+
+npm manifest: 
+  {
+    "name": "@fizno/base",
+    "version": "1.0.0",
+    "description": "Monorepo Root",
+    "repository": {
+      "type": "git",
+      "url": ""
+    },
+    "private": true,
+    "workspaces": [
+      "packages/*"
+    ],
+    "scripts": {
+      "dev": "yarn workspaces foreach --exclude @passes/ui-internal -pvi run dev"
+    },
+    "resolutions": {
+      "@types/react": "18.0.20"
+    },
+    "dependencies": {
+      "@emotion/react": "^11.11.4",
+      "@emotion/styled": "^11.11.5",
+      "@mui/material": "^5.16.1",
+      "@types/js-cookie": "^3.0.6",
+      "formik": "^2.4.6",
+      "js-cookie": "^3.0.5",
+      "use-debounce": "^10.0.1",
+      "yup": "^1.4.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

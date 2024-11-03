@@ -1,0 +1,626 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["relationJoins"]
+}
+
+// datasource db {
+//  provider          = "mysql"
+//  url               = "mysql://root:Wh!2zlet@475@localhost:3306/fizno_prod?connection_limit=20&timeout=20000"
+//  shadowDatabaseUrl = "mysql://root:Wh!2zlet@475@localhost:3306/fizno_shadow"
+// }
+
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE")
+}
+
+model wp_nepaz2_users {
+  id                  BigInt               @id @default(autoincrement())
+  user_login          String               @unique
+  user_pass           String
+  user_nicename       String
+  user_email          String               @unique
+  user_url            String?
+  user_registered     DateTime
+  user_activation_key String?
+  user_status         Int?
+  display_name        String
+  google_auth_token        String   @db.LongText
+  facebook_auth_token        String  @db.LongText
+  wp_nepaz2_usermeta  wp_nepaz2_usermeta[]
+  wp_posts            wp_posts[]
+  wp_fep_messages     wp_fep_messages[]
+  wp_fep_participants wp_fep_participants[]
+  following  wp_dokan_follow_store_followers[] @relation("followerRelation")
+  follower   wp_dokan_follow_store_followers[] @relation("VendorRelation")
+
+  wp_add_product_fav wp_add_product_fav[]
+
+  wp_add_product_cart wp_add_product_cart[]
+
+  recently_viewed_product recently_viewed_product[]
+
+  coupon_code coupon_code[]
+
+  wp_dokan_orders wp_dokan_orders[]
+
+  wp_wc_order_product_lookup wp_wc_order_product_lookup[]
+
+  wp_wc_order_stats wp_wc_order_stats[]
+
+  wp_comments wp_comments[]
+
+  post_likes post_likes[]
+
+  post_comments post_comments[]
+
+  user_address user_address[]
+
+  user_notifications_to user_notifications[] @relation("to_user")
+
+  user_notifications_from user_notifications[] @relation("from_user")
+
+  order_notes order_notes[]
+
+  seller_earning seller_earning[]
+  is_delete Int  @default(0)
+}
+
+model wp_nepaz2_usermeta {
+  umeta_id   BigInt          @id @default(autoincrement())
+  user_id    BigInt
+  user       wp_nepaz2_users @relation(fields: [user_id], references: [id])
+  meta_key   String?         @db.VarChar(255)
+  meta_value String?         @db.LongText
+}
+
+model wp_nepaz2_terms {
+  term_id                         BigInt                            @id @default(autoincrement())
+  name                            String?                           @db.LongText
+  slug                            String?
+  term_group                      BigInt?
+  wp_nepaz2_term_taxonomy         wp_nepaz2_term_taxonomy[]
+  wp_wc_product_attributes_lookup wp_wc_product_attributes_lookup[]
+
+  wp_termmeta wp_termmeta[]
+}
+
+model wp_nepaz2_term_taxonomy {
+  term_taxonomy_id      BigInt                  @id @default(autoincrement())
+  term_id               BigInt
+  taxonomy              String
+  term                  wp_nepaz2_terms         @relation(fields: [term_id], references: [term_id])
+  description           String?                 @db.LongText
+  parent                BigInt?
+  count                 BigInt?
+  wp_term_relationships wp_term_relationships[]
+
+  coupon_code coupon_code[]
+
+  summer_specific_category summer_specific_category[]
+}
+
+model wp_posts {
+  ID                    BigInt                            @id @default(autoincrement())
+  post_author           BigInt                            @default(0)
+  post_date             DateTime                          @default(now())
+  post_date_gmt         DateTime                          @default(now())
+  post_content          String                            @db.LongText
+  post_title            String
+  post_excerpt          String
+  post_status           String                            @default("publish") @db.VarChar(20)
+  comment_status        String                            @default("open") @db.VarChar(20)
+  ping_status           String                            @default("open") @db.VarChar(20)
+  post_password         String                            @default("") @db.VarChar(255)
+  post_name             String                            @default("") @db.VarChar(200)
+  to_ping               String
+  pinged                String
+  post_modified         DateTime
+  post_modified_gmt     DateTime
+  post_content_filtered String
+  post_parent           BigInt?                           @default(2)
+  guid                  String                            @default("") @db.VarChar(255)
+  menu_order            Int                               @default(0)
+  post_type             String                            @default("post") @db.VarChar(20)
+  post_mime_type        String                            @default("") @db.VarChar(100)
+  comment_count         BigInt                            @default(0)
+  wp_nepaz2_users       wp_nepaz2_users                   @relation(fields: [post_author], references: [id])
+  wp_nepaz2_postmeta    wp_postmeta[]
+  wp_term_relationships wp_term_relationships[]
+  attribute_lookup      wp_wc_product_attributes_lookup[]
+  parent                wp_posts?                         @relation("PostAttachments", fields: [post_parent], references: [ID])
+  attachments           wp_posts[]                        @relation("PostAttachments")
+
+  wp_add_product_fav wp_add_product_fav[]
+
+  wp_add_product_cart wp_add_product_cart[]
+
+  feature_product feature_product[]
+
+  recently_viewed_product recently_viewed_product[]
+
+  wp_dokan_orders wp_dokan_orders[]
+
+  wp_wc_order_product_lookup_order wp_wc_order_product_lookup[] @relation("order")
+
+  wp_wc_order_product_lookup_product wp_wc_order_product_lookup[] @relation("product")
+
+  wp_wc_order_stats wp_wc_order_stats[]
+
+  wp_woocommerce_order_items wp_woocommerce_order_items[]
+
+  wp_comments wp_comments[]
+
+  post_likes post_likes[]
+
+  post_comments post_comments[]
+
+  user_notifications_product user_notifications[] @relation("product")
+
+  user_notifications_order user_notifications[] @relation("order")
+
+  share_product share_product[]
+
+  order_notes order_notes[]
+
+  product_variation product_variation[]
+
+  seller_earning seller_earning[]
+  is_deleted Int @default(0)
+}
+
+model wp_postmeta {
+  meta_id    BigInt   @id @default(autoincrement())
+  post_id    BigInt   @default(0)
+  meta_key   String?  @db.VarChar(255)
+  meta_value String?  @db.LongText
+  post       wp_posts @relation(fields: [post_id], references: [ID])
+}
+
+model wp_term_relationships {
+  id               BigInt                  @id @default(autoincrement())
+  object_id        BigInt
+  term_taxonomy_id BigInt
+  term_order       Int
+  post             wp_posts                @relation(fields: [object_id], references: [ID])
+  term_taxonomy    wp_nepaz2_term_taxonomy @relation(fields: [term_taxonomy_id], references: [term_taxonomy_id])
+}
+
+model wp_woocommerce_attribute_taxonomies {
+  attribute_id      BigInt @id @default(autoincrement())
+  attribute_name    String
+  attribute_label   String
+  attribute_type    String
+  attribute_orderby String
+  attribute_public  Int
+} 
+
+model wp_wc_product_attributes_lookup {
+  id                     BigInt           @id @default(autoincrement())
+  product_id             BigInt
+  product_or_parent_id   BigInt
+  taxonomy               String           @db.VarChar(32)
+  term_id                BigInt
+  is_variation_attribute Int
+  in_stock               Int
+  posts                  wp_posts?        @relation(fields: [product_id], references: [ID])
+  terms                  wp_nepaz2_terms? @relation(fields: [term_id], references: [term_id])
+}
+
+model code_verification {
+  id        Int      @id @default(autoincrement())
+  identity  String   @unique
+  code      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model wp_options {
+  option_id    BigInt @id @default(autoincrement())
+  option_name  String @db.VarChar(255)
+  option_value String @db.LongText
+  autoload     String
+}
+
+model wp_fep_messages {
+  mgs_id                 BigInt                @id @default(autoincrement())
+  mgs_parent             BigInt
+  mgs_author             BigInt
+  mgs_created            DateTime
+  mgs_title              String
+  mgs_content            String                @db.LongText
+  mgs_type               String                @db.VarChar(20)
+  mgs_status             String                @db.VarChar(20)
+  mgs_last_reply_by      BigInt
+  mgs_last_reply_time    DateTime
+  mgs_last_reply_excerpt String                @db.VarChar(255)
+  wp_fep_participants    wp_fep_participants[]
+  wp_fep_messagemeta     wp_fep_messagemeta[]
+  wp_nepaz2_users        wp_nepaz2_users       @relation(fields: [mgs_author], references: [id])
+
+  wp_fep_attachments wp_fep_attachments[]
+}
+
+model wp_fep_participants {
+  per_id          BigInt           @id @default(autoincrement())
+  mgs_id          BigInt
+  mgs_participant BigInt
+  mgs_read        BigInt
+  mgs_parent_read BigInt
+  mgs_deleted     BigInt
+  mgs_archived    BigInt
+  wp_fep_messages wp_fep_messages? @relation(fields: [mgs_id], references: [mgs_id])
+  user  wp_nepaz2_users?  @relation(fields: [mgs_participant], references: [id])
+}
+
+model wp_fep_messagemeta {
+  meta_id         BigInt           @id @default(autoincrement())
+  fep_message_id  BigInt
+  meta_key        String           @db.VarChar(255)
+  meta_value      String           @db.LongText
+  wp_fep_messages wp_fep_messages? @relation(fields: [fep_message_id], references: [mgs_id])
+}
+
+model wp_fep_attachments{
+  att_id BigInt           @id @default(autoincrement())
+  mgs_id BigInt
+  att_mime String @db.VarChar(100)
+  att_file String @db.VarChar(255)
+  att_status String @db.VarChar(20)
+  message wp_fep_messages @relation(fields: [mgs_id], references: [mgs_id])
+}
+
+model wp_termmeta {
+  meta_id         BigInt           @id @default(autoincrement())
+  term_id  BigInt
+  meta_key        String           @db.VarChar(255)
+  meta_value      String           @db.LongText
+  terms wp_nepaz2_terms? @relation(fields: [term_id], references: [term_id])
+}
+
+model wp_privacy_policy {
+  id      Int        @id @default(autoincrement())
+  image   String     @db.VarChar(255)
+  title   String     @db.VarChar(255)
+  content String     @db.LongText
+}
+model wp_term_condition {
+  id      Int        @id @default(autoincrement())
+  image   String     @db.VarChar(255)
+  title   String     @db.VarChar(255)
+  content String     @db.LongText
+}
+model wp_about_us {
+  id      Int        @id @default(autoincrement())
+  image   String     @db.VarChar(255)
+  title   String     @db.VarChar(255)
+  content String     @db.LongText
+}
+
+model homepage_banner {
+  id      Int        @id @default(autoincrement())
+  image   String     @db.VarChar(255)
+  title   String     @db.VarChar(255)
+}
+model wp_dokan_follow_store_followers {
+  id            Int        @id @default(autoincrement())
+  vendor_id     BigInt
+  follower_id   BigInt
+  followed_at   DateTime
+  unfollowed_at String       @db.VarChar(255)
+  vender  wp_nepaz2_users?   @relation("VendorRelation",fields: [vendor_id], references: [id])
+  follower wp_nepaz2_users?  @relation("followerRelation",fields: [follower_id], references: [id])
+}
+
+model wp_add_product_fav {
+  id            BigInt        @id @default(autoincrement())
+  user_id       BigInt
+  product_id    BigInt
+  created_at   DateTime
+  porduct  wp_posts?   @relation(fields: [product_id], references: [ID])
+  user wp_nepaz2_users?  @relation(fields: [user_id], references: [id])
+}
+
+model wp_add_product_cart {
+  id            BigInt        @id @default(autoincrement())
+  user_id       BigInt
+  product_id    BigInt
+  created_at   DateTime
+  quantity     Int
+  product  wp_posts?   @relation(fields: [product_id], references: [ID])
+  user wp_nepaz2_users?  @relation(fields: [user_id], references: [id])
+}
+
+model feature_product {
+  id   Int   @id @default(autoincrement())
+  product_id  BigInt
+  product  wp_posts?   @relation(fields: [product_id], references: [ID])
+}
+model recently_viewed_product {
+  id   Int   @id @default(autoincrement())
+  product_id  BigInt
+  user_id     BigInt
+  user wp_nepaz2_users?  @relation(fields: [user_id], references: [id])
+  product  wp_posts?   @relation(fields: [product_id], references: [ID])
+}
+
+model coupon_code {
+   id   BigInt   @id @default(autoincrement())
+   code String
+   coupon_type String
+   coupon_amount Int 
+   description String @db.LongText
+   sellerId BigInt @default(0)
+   seller wp_nepaz2_users?  @relation(fields: [sellerId], references: [id])
+   uses Int
+   minimum_spent Int
+   maximum_spent Int
+   category wp_nepaz2_term_taxonomy[]
+   limit  Int
+   limit_per_item Int
+   limit_per_user Int
+   expire_at DateTime
+   created_at DateTime
+}
+
+model wp_dokan_orders {
+  id BigInt  @id @default(autoincrement())
+  order_id  BigInt 
+  seller_id BigInt
+  order_total  Decimal
+  net_amount  Decimal
+  order_status String
+  order wp_posts? @relation(fields: [order_id], references: [ID])
+   seller wp_nepaz2_users? @relation(fields: [seller_id], references: [id])
+}
+
+model wp_wc_order_product_lookup {
+  order_item_id BigInt @id @default(autoincrement())
+  order_id BigInt
+  product_id BigInt
+  variation_id BigInt
+  customer_id BigInt
+  date_created DateTime
+  product_qty Int
+  product_net_revenue Decimal
+  product_gross_revenue Decimal
+  coupon_amount Decimal
+  tax_amount Decimal
+  shipping_amount Decimal
+  shipping_tax_amount Decimal
+  order wp_posts? @relation("order",fields: [order_id], references: [ID])
+  product wp_posts? @relation("product",fields: [product_id], references: [ID])
+  user wp_nepaz2_users? @relation(fields: [customer_id], references: [id])
+}
+
+model wp_wc_order_stats {
+  id BigInt @id @default(autoincrement())
+  order_id BigInt
+  parent_id BigInt
+  date_created DateTime
+  date_created_gmt DateTime
+  num_items_sold Int
+  total_sales Decimal 
+  tax_total Decimal
+  shipping_total Decimal
+  net_total Decimal
+  returning_customer Int
+  status String
+  customer_id BigInt
+  date_paid DateTime
+  date_completed DateTime
+  user wp_nepaz2_users? @relation(fields: [customer_id], references: [id])
+  order wp_posts? @relation(fields: [order_id], references: [ID]) 
+}
+
+model wp_woocommerce_order_items {
+  order_item_id BigInt @id @default(autoincrement())
+  order_item_name String
+  order_item_type String
+  order_id BigInt
+  order wp_posts? @relation(fields: [order_id], references: [ID]) 
+
+  wp_woocommerce_order_itemmeta wp_woocommerce_order_itemmeta[]
+}
+
+model wp_woocommerce_order_itemmeta {
+  meta_id BigInt @id @default(autoincrement())
+  order_item_id BigInt
+  meta_key String
+  meta_value String @db.LongText
+  order_item wp_woocommerce_order_items? @relation(fields: [order_item_id], references: [order_item_id]) 
+}
+
+model wp_comments{
+  comment_ID  BigInt @id @default(autoincrement())
+  comment_post_ID BigInt
+  comment_author BigInt
+  comment_author_email String @db.VarChar(100)
+  comment_author_url String @db.VarChar(200)
+  comment_author_IP String @db.VarChar(100)
+  comment_date DateTime
+  comment_date_gmt DateTime
+  comment_content String @db.Text
+  comment_karma Int
+  comment_approved String
+  comment_agent String @db.VarChar(255)
+  comment_type String @db.VarChar(20)
+  comment_parent BigInt
+  user_id BigInt
+  comment_title String @db.VarChar(255)
+  user wp_nepaz2_users? @relation(fields: [user_id], references: [id])  
+  posts wp_posts? @relation(fields: [comment_post_ID], references: [ID])  
+
+  wp_commentmeta wp_commentmeta[]
+}
+
+model wp_commentmeta{
+  meta_id BigInt @id @default(autoincrement())
+  comment_id BigInt
+  meta_key String @db.VarChar(255)
+  meta_value String @db.LongText
+  wp_comments wp_comments? @relation(fields: [comment_id], references: [comment_ID]) 
+}
+
+model post_likes {
+   id BigInt @id @default(autoincrement())
+   product_id BigInt
+   user_id BigInt 
+   created_at DateTime
+   user wp_nepaz2_users? @relation(fields: [user_id], references: [id])  
+   product wp_posts? @relation(fields: [product_id], references: [ID])  
+}
+model post_comments {
+   id BigInt @id @default(autoincrement())
+   product_id BigInt
+   user_id BigInt 
+   created_at DateTime
+   content String @db.LongText
+   parent BigInt
+   user wp_nepaz2_users? @relation(fields: [user_id], references: [id])  
+   product wp_posts? @relation(fields: [product_id], references: [ID])  
+}
+
+model social_media {
+  id Int @id @default(autoincrement())
+  name String
+  url String  @db.VarChar(255)
+  icon String  @db.VarChar(255)
+}
+model faq {
+  id Int @id @default(autoincrement())
+  title String @db.VarChar(255)
+  heading String @db.VarChar(255)
+  content String @db.LongText
+}
+
+model play_store_links {
+  id  Int @id @default(autoincrement()) 
+  name String
+  url String
+}
+
+model summer_specific_category {
+  id  BigInt @id @default(autoincrement()) 
+  term_taxonomy_id BigInt
+  term_taxonomy wp_nepaz2_term_taxonomy? @relation(fields: [term_taxonomy_id], references: [term_taxonomy_id]) 
+}
+
+model user_address {
+  id  BigInt @id @default(autoincrement()) 
+  user_id BigInt 
+  street1 String @db.VarChar(255)
+  street2 String @db.VarChar(255)
+  country String @db.VarChar(125)
+  state String @db.VarChar(125)
+  city String @db.VarChar(125)
+  zipcode String @db.VarChar(125)
+  lat String @db.VarChar(125)
+  lng String @db.VarChar(125)
+  default Int 
+  first_name String
+  last_name String
+  email String
+  company String @default("")
+  phone_number String
+  user wp_nepaz2_users? @relation(fields: [user_id], references: [id]) 
+}
+
+model user_notifications {
+   id  BigInt @id @default(autoincrement())
+   user_id BigInt
+   auther_id BigInt
+   product_id BigInt @default(0)
+   order_id BigInt @default(0)
+   type String
+   content String @db.LongText
+   to wp_nepaz2_users? @relation("to_user", fields: [user_id], references: [id]) 
+   from wp_nepaz2_users? @relation("from_user", fields: [auther_id], references: [id])
+   product wp_posts? @relation("product", fields: [product_id], references: [ID])
+   order wp_posts? @relation("order", fields: [order_id], references: [ID])
+}
+
+model order_status{
+  id Int @id @default(autoincrement())
+  name String
+  slug String
+  created_at DateTime @default(now())
+  color String
+  status String
+}
+
+model website_feedback{
+  id BigInt @id @default(autoincrement())
+  user_name String
+  user_email String
+  rating Int 
+  content String @db.LongText
+}
+
+model share_product {
+  id BigInt @id @default(autoincrement())
+  product_id BigInt
+  share_on String
+  create_at DateTime  @default(now())
+  product wp_posts? @relation( fields: [product_id], references: [ID])
+}
+
+model order_notes {
+  id BigInt @id @default(autoincrement())
+  post_id BigInt
+  comment_author BigInt
+  comment_date DateTime @default(now())
+  content String @db.LongText
+  attachment String @db.VarChar(255)
+  comment_title String @db.VarChar(255)
+  user wp_nepaz2_users? @relation(fields: [comment_author], references: [id]) 
+  order wp_posts? @relation( fields: [post_id], references: [ID]) 
+}
+
+model product_variation {
+  id BigInt @id @default(autoincrement())
+  product_id BigInt
+  variables String @db.LongText
+  product  wp_posts? @relation( fields: [product_id], references: [ID]) 
+}
+
+model fizno_commission{
+   id BigInt @id @default(autoincrement())
+   commission_fee Int
+   payment_fee Int
+   sale_tax Int  @default(0)
+   created_at DateTime @default(now())
+   updated_at DateTime @default(now())
+}
+
+model seller_earning {
+  id BigInt @id @default(autoincrement())
+  order_id BigInt
+  seller_id BigInt
+  sale_tax Decimal 
+  commission_fee Decimal
+  payment_fee Decimal
+  earning Decimal
+  order_total Decimal
+  order wp_posts? @relation( fields: [order_id], references: [ID])
+  seller wp_nepaz2_users? @relation( fields: [seller_id], references: [id])
+}
+
+model payment_request {
+  id BigInt @id @default(autoincrement())
+  seller_id BigInt
+  amount Decimal
+  status String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+
+
+
